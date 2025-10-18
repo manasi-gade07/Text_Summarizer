@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🚀 Fast AI Text Summarizer</title>
+<style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        background: linear-gradient(135deg, #667eea, #764ba2);
+        color: white;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 50px;
+        min-height: 100vh;
+    }
+    h1 { margin-bottom: 10px; }
+    p { margin-bottom: 30px; font-size: 18px; }
+    textarea {
+        width: 80%;
+        height: 150px;
+        padding: 15px;
+        border-radius: 15px;
+        border: none;
+        font-size: 16px;
+        resize: none;
+    }
+    button {
+        margin-top: 20px;
+        padding: 12px 30px;
+        font-size: 18px;
+        border: none;
+        border-radius: 12px;
+        background-color: #ff6f61;
+        color: white;
+        cursor: pointer;
+    }
+    button:hover { 
+        background-color: white;
+        color: #ff6f61; 
+    }
+    #summary-container {
+        position: relative;
+        margin-top: 30px;
+        width: 80%;
+    }
+    #summary {
+        width: 100%;
+        min-height: 150px;
+        background: rgba(255,255,255,0.1);
+        border-radius: 15px;
+        padding: 20px;
+        font-size: 16px;
+        white-space: pre-wrap;
+    }
+    #copyIcon {
+        position: absolute;
+        top: 10px;
+        right:5px;
+    padding: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        color: white;
+        font-weight: 500;
+        border: 1px solid white;
+        border-radius: 5px;
+        transition: color 0.2s;
+    }
+    #copyIcon:hover {
+        background-color: white;
+        color: #ff6f61;
+    }
+</style>
+</head>
+<body>
+
+<h1>🚀 Fast AI Text Summarizer</h1>
+<p>Enter your text below and get a concise summary instantly.</p>
+
+<textarea id="textInput" placeholder="Enter text to summarize..."></textarea>
+<button onclick="getSummary()">Summarize</button>
+
+<div id="summary-container">
+    <div id="copyIcon" onclick="copySummary()">Copy</div>
+    <div id="summary">Your summary will appear here.</div>
+</div>
+
+<script>
+async function getSummary() {
+    const text = document.getElementById("textInput").value;
+    document.getElementById("summary").innerText = "Generating summary...";
+    
+    const response = await fetch('/summarize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: text })
+    });
+    
+    const data = await response.json();
+    document.getElementById("summary").innerText = data.summary;
+}
+
+function copySummary() {
+    const summaryText = document.getElementById("summary").innerText;
+    if(summaryText.trim() === "" || summaryText === "Your summary will appear here.") {
+        alert("Nothing to copy!");
+        return;
+    }
+    navigator.clipboard.writeText(summaryText).then(() => {
+        alert("Summary copied to clipboard!");
+    });
+}
+</script>
+
+</body>
+</html>
