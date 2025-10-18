@@ -15,7 +15,7 @@ A web-based application that allows users to input text and receive a concise AI
 
 ## Demo
 
-![Demo Screenshot](screenshot.png)  
+![Demo Screenshot](text.png)  
 *(Replace with an actual screenshot of your app if available.)*
 
 ---
